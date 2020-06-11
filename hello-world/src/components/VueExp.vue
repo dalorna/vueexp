@@ -19,12 +19,6 @@
                  aria-labelledby="ex3-label"
                  aria-describedby="inputGroup"
                  id="ex3-input">
-          <div class="combobox-dropdown"
-               id="ex3-combobox-arrow"
-               tabindex="-1"
-               role="button"
-               aria-label="Show vegetable options">
-          </div>
           <div class="input-group-prepend" :class="{'hidden' : !firstResult}">
             <div role="button" id="inputGroup" :value="firstResult" >{{firstResult}}</div>
           </div>
@@ -41,49 +35,37 @@
       <br />
       <br />
       <br />
-      <label id="multiLabel" class="combobox-label">Select Thing</label>
+      <label id="multiLabel" class="combobox-label">Select Sport</label>
       <div class="select-container">
         <div class="e-multiselect">
           <div class="e-multi-select-wrapper" >
           <span class="e-chips-collection" id="chip_default_0">
-            <span class="e-chips" data-value="thing1" title="thing1">
-              <span class="e-chipcontent">thing1</span>
+            <span class="e-chips">
+              <span class="e-chipcontent">jason1.rango@kiewit.com</span>
             </span>
-            <span class="e-chips" data-value="thing2" title="thing2">
-              <span class="e-chipcontent">thing2</span>
+            <span class="e-chips">
+              <span class="e-chipcontent">jason1.rango@kiewit.com</span>
             </span>
-            <span class="e-chips" data-value="thing3" title="thing3">
-              <span class="e-chipcontent">thing3</span>
-            </span>
-            <span class="e-chips" data-value="thing4" title="thing4">
-              <span class="e-chipcontent">thing4</span>
+            <span class="e-chips">
+              <span class="e-chipcontent">jason1.rango@kiewit.com</span>
             </span>
           </span>
             <span class="e-searcher">
             <input class="e-dropdownbase" spellcheck="false" type="text" autocomplete="off" tabindex="1"
-                   aria-describedby="chip_default_0" placeholder="" size="5" aria-disabled="false" aria-owns="select_options"
-                   aria-activedescendant="b3b9-1"
-                   role="listbox" aria-multiselectable="true"  aria-haspopup="true" aria-expanded="false">
-            <input type="text" id="select" class="e-control e-multiselect e-lib" aria-disabled="false" style="display: none;">
+                   placeholder="Select Sport" size="5">
           </span>
-            <select aria-hidden="true" class="e-multi-hidden" tabindex="-1" multiple="" name="select">
-              <option selected="" value="thing1">1</option>
-              <option selected="" value="thing2">2</option>
-              <option selected="" value="thing3">3</option>
-              <option selected="" value="thing4">4</option>
-            </select>
           </div>
         </div>
-        <div class="e-ddl e-popup e-multi-select-list-wrapper e-lib e-control e-popup-open" id="select_popup"
-             style="max-height: 300px; width: 250px; left: 418.5px; top: 40px; z-index: 1094;">
+        <div class="e-ddl e-control" id="select_popup"
+             style="max-height: 300px; top: 40px; z-index: 1094;">
           <div class="e-content e-dropdownbase" tabindex="0" style="max-height: 200px;">
-            <ul class="e-list-parent e-ul " role="listbox" id="select_options" aria-hidden="false">
+            <ul class="e-list-parent e-ul" id="select_options" >
               <li class="e-list-item e-hide-listitem" id="b3b9-0" role="option" data-value="Badminton"
                   aria-selected="true">Badminton
               </li>
-              <li class="e-list-item e-item-focus" id="b3b9-1" role="option" data-value="Cricket">Cricket</li>
+              <li class="e-list-item" id="b3b9-1" role="option" data-value="Cricket">Cricket</li>
               <li class="e-list-item" id="b3b9-2" role="option" data-value="Football" aria-selected="false">Football</li>
-              <li class="e-list-item e-hide-listitem" id="b3b9-3" role="option" data-value="Golf" aria-selected="true">
+              <li class="e-list-item" id="b3b9-3" role="option" data-value="Golf" aria-selected="true">
                 Golf
               </li>
               <li class="e-list-item" id="b3b9-4" role="option" data-value="Hockey">Hockey</li>
@@ -161,41 +143,6 @@
     created() {
       const vm = this;
       vm.$store.dispatch('setDataList', ['apple', 'banana', 'orange', 'grape', 'grapefruit', 'pear', 'blueberry', 'strawberry']);
-      document.getElementById('')
-      // window.addEventListener('load', function () {
-      //   var ex3Combobox = new aria.ListboxCombobox(
-      //     document.getElementById('ex3-combobox'),
-      //     document.getElementById('ex3-input'),
-      //     document.getElementById('ex3-listbox'),
-      //     this.searchVeggies,
-      //     true,
-      //     function () {
-      //       // on show
-      //       document.getElementById('ex3-combobox-arrow')
-      //         .setAttribute('aria-label', 'Hide vegetable options');
-      //     },
-      //     function () {
-      //       // on hide
-      //       document.getElementById('ex3-combobox-arrow')
-      //         .setAttribute('aria-label', 'Show vegetable options');
-      //     }
-      //   );
-
-
-        // document.getElementById('ex3-combobox-arrow').addEventListener(
-        //   'click',
-        //   function () {
-        //     if (ex3Combobox.shown) {
-        //       document.getElementById('ex3-input').focus();
-        //       ex3Combobox.hideListbox();
-        //     }
-        //     else {
-        //       document.getElementById('ex3-input').focus();
-        //       ex3Combobox.updateResults(true);
-        //     }
-        //   }
-        // );
-      // });
     }
   }
 </script>
@@ -205,100 +152,8 @@
     font-style: italic;
     color: #366ed4;
   }
-
   .hidden {
     display: none;
-  }
-
-  .combobox-wrapper {
-    display: inline-block;
-    position: relative;
-    font-size: 16px;
-  }
-
-  .combobox-label {
-    font-size: 14px;
-    font-weight: bold;
-    margin-right: 5px;
-  }
-
-  .listbox,
-  .grid {
-    min-width: 230px;
-    background: white;
-    border: 1px solid #ccc;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 1.7em;
-    z-index: 1;
-  }
-
-  .listbox .result {
-    cursor: default;
-    margin: 0;
-  }
-
-  .grid .result-row {
-    padding: 2px;
-    cursor: default;
-    margin: 0;
-  }
-
-  .listbox .result:hover,
-  .grid .result-row:hover {
-    background: rgb(139, 189, 225);
-  }
-
-  .listbox .focused,
-  .grid .focused {
-    background: rgb(139, 189, 225);
-  }
-
-  .grid .focused-cell {
-    outline-style: dotted;
-    outline-color: green;
-  }
-
-  .combobox-wrapper input {
-    font-size: inherit;
-    border: 1px solid #aaa;
-    border-radius: 2px;
-    line-height: 1.5em;
-    padding-right: 30px;
-    width: 200px;
-  }
-
-  .combobox-dropdown {
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 0 0 2px;
-    height: 1.5em;
-    border-radius: 0 2px 2px 0;
-    border: 1px solid #aaa;
-  }
-
-  .grid .result-cell {
-    display: inline-block;
-    cursor: default;
-    margin: 0;
-    padding: 0 5px;
-  }
-
-  .grid .result-cell:last-child {
-    float: right;
-    font-size: 12px;
-    font-weight: 200;
-    color: #333;
-    line-height: 24px;
-  }
-  .input-group-prepend {
-    position: absolute;
-    right: 6px;
-    top: 50%;
-    transform: translateY(-50%);
   }
   .flex-div {
     align-items: center;
@@ -307,7 +162,6 @@
     flex-grow: 1;
     flex-wrap: wrap;
   }
-
   .select-container {
     margin: 0 auto;
     width: 500px;
@@ -320,7 +174,7 @@
     vertical-align: middle;
   }
   .e-multi-select-wrapper {
-    border-bottom: solid 1px red;
+    border: solid 1px gray;
     box-sizing: border-box;
     cursor: text;
     line-height: normal;
@@ -447,13 +301,14 @@
     overflow-y:visible;
     position:static;
     top:40px;
-    width:250px;
+    width:500px;
     z-index:1011;
   }
   .e-dropdownbase.e-content {
     overflow: auto;
     position: relative;
     height: 100%;
+    width: 500px;
   }
   .e-list-parent{
     margin: 0;
@@ -485,5 +340,11 @@
   }
   .e-item-focus {
     background-color: #eee;
+  }
+  .e-hide-listitem {
+    display: none;
+  }
+  .e-ul {
+    width: 480px;
   }
 </style>
