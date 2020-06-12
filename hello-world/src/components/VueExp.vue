@@ -35,8 +35,8 @@
       <br />
       <br />
       <br />
-      <label id="multiLabel" class="combobox-label">Select Sport</label>
       <div class="select-container">
+        <label id="multiLabel" class="combobox-label">Select Sport</label>
         <div class="e-multiselect">
           <div class="e-multi-select-wrapper" >
           <span class="e-chips-collection" id="chip_default_0">
