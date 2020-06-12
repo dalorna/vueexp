@@ -7,7 +7,7 @@
       </label>
       <div class="combobox-wrapper">
         <div role="combobox"
-             :aria-expanded="showOptions"
+             :aria-expanded="false"
              aria-owns="ex3-listbox"
              aria-haspopup="listbox"
              id="ex3-combobox">
@@ -28,7 +28,7 @@
             id="ex3-listbox"
             class="listbox">
           <li v-bind:key="item" v-for="item in resultItems">
-            <button :aria-controls="item" aria-expanded="false" v-on:click="selectClick(item)">{{item}}</button>
+            <button :aria-controls="item" aria-expanded="false" >{{item}}</button>
           </li>
         </ul>
       </div>
@@ -40,38 +40,31 @@
         <div class="e-multiselect">
           <div class="e-multi-select-wrapper" >
           <span class="e-chips-collection" id="chip_default_0">
-            <span class="e-chips">
-              <span class="e-chipcontent">jason1.rango@kiewit.com</span>
-            </span>
-            <span class="e-chips">
-              <span class="e-chipcontent">jason1.rango@kiewit.com</span>
-            </span>
-            <span class="e-chips">
-              <span class="e-chipcontent">jason1.rango@kiewit.com</span>
-            </span>
+            <template v-for="item in selectedListItems" >
+              <span class="e-chips" v-bind:key="item.id">
+                <span class="e-chipContent">{{item.name}}</span>
+                <b-icon-trash v-on:click="removeSelection(item.id)"></b-icon-trash>
+              </span>
+            </template>
           </span>
             <span class="e-searcher">
-            <input class="e-dropdownbase" spellcheck="false" type="text" autocomplete="off" tabindex="1"
-                   placeholder="Select Sport" size="5">
+            <input class="e-dropDownBase" spellcheck="false" type="text" autocomplete="off" tabindex="1"
+                   placeholder="Select Sport" size="15"
+                   v-on:input="onSelectInput($event)"
+                   v-on:blur="onBlurSelectInput($event)"
+                   v-on:keypress="highlightSelection($event)"
+                   id="searchInput"
+            >
           </span>
           </div>
         </div>
-        <div class="e-ddl e-control" id="select_popup"
-             style="max-height: 300px; top: 40px; z-index: 1094;">
-          <div class="e-content e-dropdownbase" tabindex="0" style="max-height: 200px;">
+        <div class="e-ddl e-control e-popup" id="select_popup" :class="{'hide' : !showPopup}" :style="{ height: popupHeight + 'px' }">
+          <div class="e-content e-dropDownBase" tabindex="0" style="max-height: 200px;"  :style="{ height: popupHeight + 'px' }">
             <ul class="e-list-parent e-ul" id="select_options" >
-              <li class="e-list-item e-hide-listitem" id="b3b9-0" role="option" data-value="Badminton"
-                  aria-selected="true">Badminton
+              <li v-for="(item, index) in popupListItems" v-bind:key="item.id" class="e-list-item"
+                  :class="{'e-hide-listItem' : item.hide, 'e-list-active-item' : index === activateSelectedIndex}"
+                  :id="'listItem_' + item.id" role="option" v-on:click="selectClick(item)">{{item.name}}
               </li>
-              <li class="e-list-item" id="b3b9-1" role="option" data-value="Cricket">Cricket</li>
-              <li class="e-list-item" id="b3b9-2" role="option" data-value="Football" aria-selected="false">Football</li>
-              <li class="e-list-item" id="b3b9-3" role="option" data-value="Golf" aria-selected="true">
-                Golf
-              </li>
-              <li class="e-list-item" id="b3b9-4" role="option" data-value="Hockey">Hockey</li>
-              <li class="e-list-item" id="b3b9-5" role="option" data-value="Rugby">Rugby</li>
-              <li class="e-list-item" id="b3b9-6" role="option" data-value="Snooker">Snooker</li>
-              <li class="e-list-item" id="b3b9-7" role="option" data-value="Tennis">Tennis</li>
             </ul>
           </div>
         </div>
@@ -93,7 +86,23 @@
         textInput: '',
         resultItems: [],
         firstResult: '',
-        listItems: ['apple', 'banana', 'orange', 'grape', 'grapefruit', 'pear', 'blueberry', 'strawberry']
+        listItems: ['apple', 'banana', 'orange', 'grape', 'grapefruit', 'pear', 'blueberry', 'strawberry'],
+        popupListItems:[
+          {name: 'Cricket', id: '1', hide: false},
+          {name: 'Football', id: '2', hide: false},
+          {name: 'Golf', id: '3', hide: false},
+          {name: 'Hockey', id: '4', hide: false},
+          {name: 'Rugby', id: '5', hide: false},
+          {name: 'Snooker', id: '6', hide: false},
+          {name: 'Tennis', id: '7', hide: false},
+          {name: 'Baseball', id: '8', hide: false},
+          {name: 'Basketball', id: '9', hide: false},
+          {name: 'Soccer', id: '10', hide: false}],
+        selectedListItems: [],
+        showPopup: false,
+        activeSelection: null,
+        activateSelectedIndex: null,
+        popupHeight: 200
       }
     },
     methods: {
@@ -136,13 +145,84 @@
           this.showOptions = false;
         }
       }, 100),
+
+      onSelectInput: debounce(function (e) {
+        const changeText = e && e.target ? e.target.value.toLowerCase() : '';
+
+        if (changeText.length > 1) {
+          for (let i = 0; i < this.popupListItems.length; i++) {
+            let item = this.popupListItems[i];
+            let sport = item.name.toLowerCase();
+            let isSelected = !!this.selectedListItems.find(f => f.id === item.id);
+            this.popupListItems[i].hide = (!(sport.indexOf(changeText) >= 0) || isSelected);
+          }
+
+          this.showPopup = this.popupListItems.map(m => !m.hide).reduce((a, b) => a || b);
+          this.popupHeight = this.popupListItems.filter(m => !m.hide).length * 38;
+        } else {
+          this.showPopup = false;
+          this.activeSelection = null;
+          this.activateSelectedIndex = null;
+        }
+      },100),
+      onBlurSelectInput: debounce(function (e) {
+        const searchInput = document.getElementById('searchInput');
+        searchInput.value = '';
+        this.onSelectInput('');
+      },250),
+      removeSelection: debounce(function (e) {
+        const index = this.selectedListItems.findIndex(i => i.id === e);
+        const popupIndex = this.popupListItems.findIndex(i => i.id === e);
+        this.popupListItems[popupIndex].hide = false;
+        this.selectedListItems.splice(index, 1);
+      }),
+      highlightSelection: debounce(function (e) {
+        // UP 38, DOWN 40, ENTER 13
+        if (this.showPopup && (e.keyCode === 38 || e.keyCode === 40)) {
+          const showingItems = this.popupListItems.filter(f => !f.hide);
+          if (this.activeSelection === null) {
+            this.activeSelection = 0;
+          } else {
+            if (e.keyCode === 38) {
+              if (this.activeSelection > 0) {
+                this.activeSelection--;
+              }
+            } else if (e.keyCode === 40) {
+              if (this.activeSelection >= 0 && this.activeSelection < (showingItems.length - 1)) {
+                this.activeSelection++;
+              } else if (this.activeSelection === null) {
+                this.activeSelection = 0;
+              }
+            }
+          }
+
+          this.activateSelectedIndex = this.popupListItems.findIndex(i => i.id === showingItems[this.activeSelection].id);
+          document.getElementById('listItem_' + this.popupListItems[this.activateSelectedIndex].id).scrollIntoView(false);
+        }
+        else if(this.showPopup && e.keyCode === 13) {
+          this.selectedListItems.push(this.popupListItems[this.activateSelectedIndex]);
+          e.hide = true;
+          const searchInput = document.getElementById('searchInput');
+          searchInput.value = '';
+          this.onSelectInput('');
+          this.activeSelection = null;
+
+        }
+      }, 100),
       selectClick(e) {
-        console.log('selectClick', e) ;
+        this.selectedListItems.push(e);
+        e.hide = true;
+        const searchInput = document.getElementById('searchInput');
+        searchInput.value = '';
+        this.onSelectInput('');
       }
     },
     created() {
       const vm = this;
       vm.$store.dispatch('setDataList', ['apple', 'banana', 'orange', 'grape', 'grapefruit', 'pear', 'blueberry', 'strawberry']);
+    },
+    mounted () {
+      document.addEventListener("keyup", this.highlightSelection);
     }
   }
 </script>
@@ -203,7 +283,7 @@
     }
 
   }
-  .e-chipcontent {
+  .e-chipContent {
     color: rgba(0, 0, 0, 0.87);
     font-family: inherit;
     font-size: 13px;
@@ -238,7 +318,7 @@
     cursor: default;
     display: block;
   }
-  .e-dropdownbase {
+  .e-dropDownBase {
     box-sizing: content-box;
     content: "";
     display: block;
@@ -304,7 +384,7 @@
     width:500px;
     z-index:1011;
   }
-  .e-dropdownbase.e-content {
+  .e-dropDownBase.e-content {
     overflow: auto;
     position: relative;
     height: 100%;
@@ -320,6 +400,12 @@
   }
   li {
     text-align: -webkit-match-parent;
+  }
+  li:hover {
+    background-color: lightslategrey;
+  }
+  .e-list-item.e-list-active-item {
+    background-color: #454445;
   }
   .e-list-item {
     border: 1px solid transparent;
@@ -341,10 +427,16 @@
   .e-item-focus {
     background-color: #eee;
   }
-  .e-hide-listitem {
+  .e-hide-listItem {
     display: none;
   }
   .e-ul {
     width: 480px;
+  }
+  .e-popup {
+    max-height: 300px; top: 40px; z-index: 1094;
+  }
+  .e-ddl.e-control.e-popup.hide {
+    display: none;
   }
 </style>

@@ -5,15 +5,21 @@ import App from './App'
 import router from './router'
 import store from './store'
 import '../styles/styles.scss';
-import BootstrapVue from 'bootstrap-vue'
+import { BootstrapVue, BIcon, BIconTrash, BIconTrash2, BIconTrash2Fill, BIconTrashFill }from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import 'bootstrap-vue/dist/bootstrap-vue.min.js'
+import 'bootstrap-vue/dist/bootstrap-vue-icons.min.js'
 
 
 
 Vue.config.productionTip = false
-
- Vue.use(BootstrapVue);
+Vue.use(BootstrapVue);
+Vue.component('BIcon', BIcon);
+Vue.component('BIconTrash', BIconTrash);
+Vue.component('BIconTrash2', BIconTrash2);
+Vue.component('BIconTrash2Fill', BIconTrash2Fill);
+Vue.component('BIconTrashFill', BIconTrashFill);
 
 /* eslint-disable no-new */
 new Vue({
