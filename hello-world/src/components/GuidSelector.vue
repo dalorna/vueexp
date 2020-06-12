@@ -1,14 +1,14 @@
 <template>
     <div :style="{ width: selectorWidth + 'px' }">
       <label id="multiLabel" class="combobox-label">{{title}}</label>
-      <div class="select-container">
+      <div class="select-container" :class="{ 'disabled' : disabled }">
         <div class="e-multiselect">
           <div class="e-multi-select-wrapper" >
           <span class="e-chips-collection" id="chip_default_0">
             <template v-for="item in selectedListItems" >
               <span class="e-chips" v-bind:key="item.id">
                 <span class="e-chipContent">{{item.name}}</span>
-                <b-icon-trash v-on:click="removeSelection(item.id)"></b-icon-trash>
+                <b-icon-trash :style="{display: disabled ? 'none' :'block'}" v-on:click="removeSelection(item.id)"></b-icon-trash>
               </span>
             </template>
           </span>
@@ -18,6 +18,7 @@
                    v-on:input="onSelectInput($event)"
                    v-on:blur="onBlurSelectInput($event)"
                    v-on:keypress="highlightSelection($event)"
+                   :style="{display: showInput || disabled ? 'none' :'block'}"
                    id="searchInput"
             >
           </span>
@@ -44,11 +45,16 @@
     props: [
       'title',
       'options',
-      'controlWidth'
+      'controlWidth',
+      'isSingle',
+      'disabled'
     ],
     computed: {
       selectorWidth() {
         return this.controlWidth || 200;
+      },
+      showInput() {
+        return this.isSingle && this.selectedListItems.length > 0
       }
     },
     data() {
@@ -143,6 +149,9 @@
   }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.disabled {
+  cursor: not-allowed;
+  background-color: bisque;
+}
 </style>
