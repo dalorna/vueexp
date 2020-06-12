@@ -58,9 +58,9 @@
           </span>
           </div>
         </div>
-        <div class="e-ddl e-control e-popup" id="select_popup" :class="{'hide' : !showPopup}" :style="{ height: popupHeight + 'px' }">
+        <div class="e-ddl e-control e-popup" id="select_popup" style="width: 500px" :class="{'hide' : !showPopup}" :style="{ height: popupHeight + 'px' }">
           <div class="e-content e-dropDownBase" tabindex="0" style="max-height: 200px;"  :style="{ height: popupHeight + 'px' }">
-            <ul class="e-list-parent e-ul" id="select_options" >
+            <ul class="e-list-parent e-ul" id="select_options" style="width: 480px" >
               <li v-for="(item, index) in popupListItems" v-bind:key="item.id" class="e-list-item"
                   :class="{'e-hide-listItem' : item.hide, 'e-list-active-item' : index === activateSelectedIndex}"
                   :id="'listItem_' + item.id" role="option" v-on:click="selectClick(item)">{{item.name}}

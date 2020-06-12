@@ -1,6 +1,6 @@
 <template>
-    <div>
-      <label id="multiLabel" class="combobox-label">{{title}}}</label>
+    <div :style="{ width: selectorWidth + 'px' }">
+      <label id="multiLabel" class="combobox-label">{{title}}</label>
       <div class="select-container">
         <div class="e-multiselect">
           <div class="e-multi-select-wrapper" >
@@ -23,9 +23,9 @@
           </span>
           </div>
         </div>
-        <div class="e-ddl e-control e-popup" id="select_popup" :class="{'hide' : !showPopup}" :style="{ height: popupHeight + 'px' }">
-          <div class="e-content e-dropDownBase" tabindex="0" style="max-height: 200px;"  :style="{ height: popupHeight + 'px' }">
-            <ul class="e-list-parent e-ul" id="select_options" >
+        <div class="e-ddl e-control e-popup" id="select_popup" :class="{'hide' : !showPopup}" :style="{ height: popupHeight + 'px', width: selectorWidth + 'px'  }">
+          <div class="e-dropDownBase e-content" tabindex="0" style="max-height: 200px;"  :style="{ height: popupHeight + 'px' }">
+            <ul class="e-list-parent e-ul" id="select_options" :style="{ width: (selectorWidth - 20) + 'px' }" >
               <li v-for="(item, index) in popupListItems" v-bind:key="item.id" class="e-list-item"
                   :class="{'e-hide-listItem' : item.hide, 'e-list-active-item' : index === activateSelectedIndex}"
                   :id="'listItem_' + item.id" role="option" v-on:click="selectClick(item)">{{item.name}}
@@ -43,21 +43,17 @@
     name: 'GuidSelector',
     props: [
       'title',
-      'options'
+      'options',
+      'controlWidth'
     ],
+    computed: {
+      selectorWidth() {
+        return this.controlWidth || 200;
+      }
+    },
     data() {
       return {
-        popupListItems:[
-          {name: 'Cricket', id: '1', hide: false},
-          {name: 'Football', id: '2', hide: false},
-          {name: 'Golf', id: '3', hide: false},
-          {name: 'Hockey', id: '4', hide: false},
-          {name: 'Rugby', id: '5', hide: false},
-          {name: 'Snooker', id: '6', hide: false},
-          {name: 'Tennis', id: '7', hide: false},
-          {name: 'Baseball', id: '8', hide: false},
-          {name: 'Basketball', id: '9', hide: false},
-          {name: 'Soccer', id: '10', hide: false}],
+        popupListItems: [],
         selectedListItems: [],
         showPopup: false,
         activeSelection: null,
@@ -69,7 +65,7 @@
       onSelectInput: debounce(function (e) {
         const changeText = e && e.target ? e.target.value.toLowerCase() : '';
 
-        if (changeText.length > 1) {
+        if (changeText.length > 0) {
           for (let i = 0; i < this.popupListItems.length; i++) {
             let item = this.popupListItems[i];
             let sport = item.name.toLowerCase();
@@ -138,8 +134,8 @@
       }
     },
     created() {
-      const vm = this;
       this.popupListItems = this.options;
+
     },
     mounted () {
       document.addEventListener("keyup", this.highlightSelection);

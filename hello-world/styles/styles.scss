@@ -220,7 +220,6 @@
   overflow: auto;
   position: relative;
   height: 100%;
-  width: 500px;
 }
 .e-list-parent{
   margin: 0;
@@ -261,9 +260,6 @@ li:hover {
 }
 .e-hide-listItem {
   display: none;
-}
-.e-ul {
-  width: 480px;
 }
 .e-popup {
   max-height: 300px; top: 40px; z-index: 1094;
