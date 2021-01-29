@@ -11,10 +11,11 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "debounce": "^1.2.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.4.0",
-    "debounce": "^1.2.0"
+    "reveal.js": "^4.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -43,7 +44,7 @@
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
-    "node-notifier": "^8.0.1",
+    "node-notifier": "^5.1.2",
     "node-sass": "^4.14.1",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
@@ -60,18 +61,29 @@
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
-    "vue-template-compiler": "^2.5.2",
+    "vue-template-compiler": "^2.5.13",
     "webpack": "^3.6.0",
-    "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-dev-server": "^3.1.11",
+    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0",
     "sass-loader": "7.3.1",
     "bootstrap": "^4.5.0",
-    "bootstrap-vue": "^2.15.0"
+    "bootstrap-vue": "^2.15.0",
+    "@vue/cli-plugin-babel": "^4.5.11",
+    "@vue/cli-plugin-eslint": "^4.5.11",
+    "@vue/cli-service": "^4.5.11"
   },
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
+  },
+  "babel": {
+    "presets": ["@vue/app"]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
   },
   "browserslist": [
     "> 1%",

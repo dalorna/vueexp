@@ -103,7 +103,7 @@
         activeSelection: null,
         activateSelectedIndex: null,
         popupHeight: 200
-      }
+      };
     },
     methods: {
       onTextInput: debounce(function (e) {
